@@ -2,19 +2,21 @@
 using RestSharp;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace CurrencyExchangeMicroservice
 {
     public class FixerApiClient
     {
-        private const string ApiKey = "YnhaO8i9JfkyfVMEKWAUUsL6cpfaMDjp";
+        private readonly string ApiKey;
         private const string BaseUrl = "https://api.apilayer.com/fixer/";
 
         private readonly HttpClient _httpClient;
 
-        public FixerApiClient(HttpClient httpClient)
+        public FixerApiClient(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
+            ApiKey = configuration.GetValue<string>("FixerApi:ApiKey");
         }
 
         private readonly ConcurrentDictionary<string, (decimal Rate, DateTime Timestamp)> _exchangeRateCache = new();

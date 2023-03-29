@@ -20,9 +20,9 @@ namespace CurrencyExchangeMicroservice.Controllers
         private readonly CurrencyExchangeDbContext _context;
         private readonly IMemoryCache _memoryCache;
 
-        public CurrencyExchangeController(IHttpClientFactory httpClientFactory, CurrencyExchangeDbContext context, IMemoryCache memoryCache)
+        public CurrencyExchangeController(FixerApiClient fixerApiClient, CurrencyExchangeDbContext context, IMemoryCache memoryCache)
         {
-            _fixerApiClient = new FixerApiClient(httpClientFactory.CreateClient());
+            _fixerApiClient = fixerApiClient;
             _context = context;
             _memoryCache = memoryCache;
         }
