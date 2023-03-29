@@ -12,6 +12,7 @@
           "Microsoft.EntityFrameworkCore.Design": "7.0.4",
           "Microsoft.EntityFrameworkCore.SqlServer": "7.0.4",
           "Microsoft.EntityFrameworkCore.Sqlite": "7.0.4",
+          "Microsoft.Extensions.Caching.Memory": "7.0.0",
           "Newtonsoft.Json": "13.0.3",
           "RestSharp": "106.15.0",
           "Swashbuckle.AspNetCore": "6.4.0"
