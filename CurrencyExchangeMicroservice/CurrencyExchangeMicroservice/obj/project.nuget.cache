@@ -1,12 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "81D2w+yd8XdFeEbx3wRk9NWIcWBrItJqabPnTIvjSnvVDHMx9V4T8uvxiiVOWwa/2Sj461UVfkD2tFafOS4/Sw==",
+  "dgSpecHash": "RLqepvan+xE3j1CznHhYfTN9Z6ucDg1zc4qU6mfUIAMV3AGqqhTsyk0jCchMovSlL/csyMfoBjB2UV+yITUkxg==",
   "success": true,
   "projectFilePath": "C:\\Users\\memos\\Desktop\\MeDirect\\Microservice-Challenge\\CurrencyExchangeMicroservice\\CurrencyExchangeMicroservice\\CurrencyExchangeMicroservice.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\memos\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.4\\microsoft.aspnetcore.openapi.7.0.4.nupkg.sha512",
     "C:\\Users\\memos\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\memos\\.nuget\\packages\\microsoft.openapi\\1.4.3\\microsoft.openapi.1.4.3.nupkg.sha512",
+    "C:\\Users\\memos\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\memos\\.nuget\\packages\\restsharp\\106.15.0\\restsharp.106.15.0.nupkg.sha512",
     "C:\\Users\\memos\\.nuget\\packages\\swashbuckle.aspnetcore\\6.4.0\\swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
     "C:\\Users\\memos\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.4.0\\swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
     "C:\\Users\\memos\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.4.0\\swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",

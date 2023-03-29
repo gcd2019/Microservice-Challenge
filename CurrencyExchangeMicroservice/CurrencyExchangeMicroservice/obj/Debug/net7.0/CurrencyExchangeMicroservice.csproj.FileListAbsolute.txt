@@ -31,3 +31,5 @@ C:\Users\memos\Desktop\MeDirect\Microservice-Challenge\CurrencyExchangeMicroserv
 C:\Users\memos\Desktop\MeDirect\Microservice-Challenge\CurrencyExchangeMicroservice\CurrencyExchangeMicroservice\obj\Debug\net7.0\CurrencyExchangeMicroservice.pdb
 C:\Users\memos\Desktop\MeDirect\Microservice-Challenge\CurrencyExchangeMicroservice\CurrencyExchangeMicroservice\obj\Debug\net7.0\CurrencyExchangeMicroservice.genruntimeconfig.cache
 C:\Users\memos\Desktop\MeDirect\Microservice-Challenge\CurrencyExchangeMicroservice\CurrencyExchangeMicroservice\obj\Debug\net7.0\ref\CurrencyExchangeMicroservice.dll
+C:\Users\memos\Desktop\MeDirect\Microservice-Challenge\CurrencyExchangeMicroservice\CurrencyExchangeMicroservice\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Users\memos\Desktop\MeDirect\Microservice-Challenge\CurrencyExchangeMicroservice\CurrencyExchangeMicroservice\bin\Debug\net7.0\RestSharp.dll

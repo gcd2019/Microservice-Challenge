@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CurrencyExchangeMicroservice.Models;
 using System;
+using System.Net.Http;
 
 namespace CurrencyExchangeMicroservice.Controllers
 {
@@ -8,12 +9,19 @@ namespace CurrencyExchangeMicroservice.Controllers
     [Route("api/[controller]")]
     public class CurrencyExchangeController : ControllerBase
     {
+        private readonly FixerApiClient _fixerApiClient;
+
+        public CurrencyExchangeController(HttpClient httpClient)
+        {
+            _fixerApiClient = new FixerApiClient();
+        }
+
         [HttpPost]
-        public ActionResult<CurrencyExchangeResponse> Post([FromBody] CurrencyExchangeRequest request)
+        public async Task<ActionResult<CurrencyExchangeResponse>> Post([FromBody] CurrencyExchangeRequest request)
         {
             try
             {
-                var exchangeRate = GetExchangeRate(request.FromCurrency, request.ToCurrency);
+                var exchangeRate = await _fixerApiClient.GetExchangeRate(request.FromCurrency, request.ToCurrency, request.Amount);
                 var convertedAmount = request.Amount * exchangeRate;
                 var response = new CurrencyExchangeResponse
                 {
@@ -29,23 +37,6 @@ namespace CurrencyExchangeMicroservice.Controllers
             catch (Exception ex)
             {
                 return BadRequest($"Error: {ex.Message}");
-            }
-        }
-
-        private decimal GetExchangeRate(string fromCurrency, string toCurrency)
-        {
-            // Replace this with actual API call to get the exchange rate
-            if (fromCurrency == "USD" && toCurrency == "EUR")
-            {
-                return 0.85m;
-            }
-            else if (fromCurrency == "EUR" && toCurrency == "USD")
-            {
-                return 1.18m;
-            }
-            else
-            {
-                throw new Exception("Unsupported currency pair");
             }
         }
     }
