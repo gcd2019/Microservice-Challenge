@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "FMEuKt7+fT/0I89gxz7H72Ip+exFrjzvo3vF+vpMTic=",
+  "Source": "CurrencyExchangeMicroservice",
+  "BasePath": "_content/CurrencyExchangeMicroservice",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
