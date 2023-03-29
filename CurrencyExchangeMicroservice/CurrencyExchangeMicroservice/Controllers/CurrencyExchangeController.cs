@@ -1,7 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CurrencyExchangeMicroservice.Models;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
+using CurrencyExchangeMicroservice.Data;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace CurrencyExchangeMicroservice.Controllers
 {
@@ -10,10 +15,11 @@ namespace CurrencyExchangeMicroservice.Controllers
     public class CurrencyExchangeController : ControllerBase
     {
         private readonly FixerApiClient _fixerApiClient;
-
-        public CurrencyExchangeController(HttpClient httpClient)
+        private readonly CurrencyExchangeDbContext _context;
+        public CurrencyExchangeController(IHttpClientFactory httpClientFactory, CurrencyExchangeDbContext context)
         {
-            _fixerApiClient = new FixerApiClient();
+            _fixerApiClient = new FixerApiClient(httpClientFactory.CreateClient());
+            _context = context;
         }
 
         [HttpPost]
@@ -32,6 +38,18 @@ namespace CurrencyExchangeMicroservice.Controllers
                     ExchangeRate = exchangeRate
                 };
 
+                _context.CurrencyExchangeTrades.Add(new CurrencyExchangeTrade
+                {
+                    Id = Guid.NewGuid(),
+                    FromCurrency = request.FromCurrency,
+                    ToCurrency = request.ToCurrency,
+                    Amount = request.Amount,
+                    ConvertedAmount = convertedAmount,
+                    ExchangeRate = exchangeRate,
+                    Timestamp = DateTime.UtcNow
+                });
+                await _context.SaveChangesAsync();
+
                 return Ok(response);
             }
             catch (Exception ex)
@@ -39,5 +57,13 @@ namespace CurrencyExchangeMicroservice.Controllers
                 return BadRequest($"Error: {ex.Message}");
             }
         }
+
+        // Add a new endpoint to retrieve trade history
+        [HttpGet("trades")]
+        public async Task<ActionResult<IEnumerable<CurrencyExchangeTrade>>> GetTrades()
+        {
+            return Ok(await _context.CurrencyExchangeTrades.ToListAsync());
+        }
+
     }
 }

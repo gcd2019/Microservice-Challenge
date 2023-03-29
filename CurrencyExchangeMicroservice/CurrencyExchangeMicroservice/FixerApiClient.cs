@@ -9,6 +9,13 @@ namespace CurrencyExchangeMicroservice
         private const string ApiKey = "YnhaO8i9JfkyfVMEKWAUUsL6cpfaMDjp";
         private const string BaseUrl = "https://api.apilayer.com/fixer/";
 
+        private readonly HttpClient _httpClient;
+
+        public FixerApiClient(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
+
         public async Task<decimal> GetExchangeRate(string fromCurrency, string toCurrency, decimal amount)
         {
             var client = new RestClient($"{BaseUrl}convert?to={toCurrency}&from={fromCurrency}&amount={amount}");
