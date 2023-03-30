@@ -16,6 +16,12 @@
 - FixerConversionResponse: A simple POCO (Plain Old CLR Object) that represents a response from the Fixer API for currency conversion.
 
 # Instructions
+- Add the following in the appsettings.json file:
+```
+  "FixerApi": {
+    "ApiKey": "your_api_key"
+  }
+```
 - Open the project on Visual Studio
 - Press the run button (should be set on https)
 - Then you'll be able to interact with the APIs on swagger
