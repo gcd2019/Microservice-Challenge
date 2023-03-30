@@ -1,10 +1,10 @@
 # Microservice-Challenge
 
 # General Information
-IDE Used: Visual Studio 2022
-Framework: .Net 7.0
-Rate Provider used: Fixer.IO
-Database used: SQLite
+- IDE Used: Visual Studio 2022
+- Framework: .Net 7.0
+- Rate Provider used: Fixer.IO
+- Database used: SQLite
 
 # Source Code
 - CurrencyExchangeController: The API controller that handles currency exchange requests.
