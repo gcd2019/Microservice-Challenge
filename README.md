@@ -14,3 +14,9 @@
 - CurrencyExchangeTrade: Represents a currency exchange trade in the database.
 - FixerApiClient: Is responsible for interacting with the Fixer API to retrieve currency exchange rates.
 - FixerConversionResponse: A simple POCO (Plain Old CLR Object) that represents a response from the Fixer API for currency conversion.
+
+# Instructions
+- Open the project on Visual Studio
+- Press the run button (should be set on https)
+- Then you'll be able to interact with the APIs on swagger
+- You can create new exchange requests, get all the exchange requests saved in the DB and delete all requests saved in the DB.
