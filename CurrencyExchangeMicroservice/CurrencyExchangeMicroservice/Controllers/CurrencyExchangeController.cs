@@ -1,27 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CurrencyExchangeMicroservice.Models;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using CurrencyExchangeMicroservice.Data;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using System.Linq;
-using Microsoft.Extensions.Logging;
-
 
 namespace CurrencyExchangeMicroservice.Controllers
 {
+    // Defines the CurrencyExchangeController class, which inherits from ControllerBase.
     [ApiController]
     [Route("api/[controller]")]
     public class CurrencyExchangeController : ControllerBase
     {
+        // Declare private fields for the API client, database context, memory cache, and logger.
         private readonly FixerApiClient _fixerApiClient;
         private readonly CurrencyExchangeDbContext _context;
         private readonly IMemoryCache _memoryCache;
         private readonly ILogger<CurrencyExchangeController> _logger;
 
+        // Constructor to initialize private fields.
         public CurrencyExchangeController(FixerApiClient fixerApiClient, CurrencyExchangeDbContext context, IMemoryCache memoryCache, ILogger<CurrencyExchangeController> logger)
         {
             _fixerApiClient = fixerApiClient;
@@ -30,13 +26,16 @@ namespace CurrencyExchangeMicroservice.Controllers
             _logger = logger;
         }
 
+        // POST endpoint for currency exchange requests.
         [HttpPost]
         public async Task<ActionResult<CurrencyExchangeResponse>> Post([FromBody] CurrencyExchangeRequest request)
         {
             try
             {
+                // Log the received request.
                 _logger.LogInformation("Received currency exchange request: {@Request}", request);
-                
+
+                // Get the client ID.
                 var clientId = GetClientId();
 
                 // Check if the client has exceeded the rate limit
@@ -46,8 +45,10 @@ namespace CurrencyExchangeMicroservice.Controllers
                     return StatusCode(429, "You have exceeded the limit of 10 trades per hour.");
                 }
 
-                var exchangeRate = await _fixerApiClient.GetExchangeRate(request.FromCurrency, request.ToCurrency, request.Amount);
-                var convertedAmount = request.Amount * exchangeRate;
+                // Get the exchange rate and converted amount from the API client.
+                var (exchangeRate, convertedAmount) = await _fixerApiClient.GetExchangeRate(request.FromCurrency, request.ToCurrency, request.Amount);
+
+                // Create a response object.
                 var response = new CurrencyExchangeResponse
                 {
                     FromCurrency = request.FromCurrency,
@@ -57,6 +58,7 @@ namespace CurrencyExchangeMicroservice.Controllers
                     ExchangeRate = exchangeRate
                 };
 
+                // Add the trade to the database.
                 _context.CurrencyExchangeTrades.Add(new CurrencyExchangeTrade
                 {
                     Id = Guid.NewGuid(),
@@ -70,18 +72,20 @@ namespace CurrencyExchangeMicroservice.Controllers
                 await _context.SaveChangesAsync();
                 IncrementTradeCount(clientId);
 
+                // Log the successful exchange and return the response.
                 _logger.LogInformation("Currency exchange completed successfully: {@Response}", response);
 
                 return Ok(response);
             }
             catch (Exception ex)
             {
+                // Log the error and return a bad request response.
                 _logger.LogError(ex, "Error occurred during currency exchange: {Message}", ex.Message);
                 return BadRequest($"Error: {ex.Message}");
             }
         }
 
-        // Add a new endpoint to retrieve trade history
+        // GET endpoint to retrieve trade history.
         [HttpGet("trades")]
         public async Task<ActionResult<IEnumerable<CurrencyExchangeTrade>>> GetTrades()
         {
@@ -89,12 +93,14 @@ namespace CurrencyExchangeMicroservice.Controllers
             return Ok(await _context.CurrencyExchangeTrades.ToListAsync());
         }
 
+        // Get the client ID using their IP address.
         private string GetClientId()
         {
             // Use the client's IP address as the identifier (you can use any other unique identifier)
             return HttpContext.Connection.RemoteIpAddress.ToString();
         }
 
+        // Check if the client is allowed to trade based on their trade count.
         private bool IsClientAllowedToTrade(string clientId)
         {
             const int maxTradesPerHour = 10;
@@ -108,6 +114,7 @@ namespace CurrencyExchangeMicroservice.Controllers
             return tradeCount < maxTradesPerHour;
         }
 
+        // Increment the trade count for the given client ID.
         private void IncrementTradeCount(string clientId)
         {
             const int cacheExpirationMinutes = 60;
@@ -126,7 +133,7 @@ namespace CurrencyExchangeMicroservice.Controllers
             }
         }
 
-        // Add a new endpoint to delete all trade history
+        // DELETE endpoint to delete all trade history.
         [HttpDelete("trades")]
         public async Task<IActionResult> DeleteAllTrades()
         {
@@ -139,6 +146,7 @@ namespace CurrencyExchangeMicroservice.Controllers
                 return NotFound("No trades found to delete.");
             }
 
+            // Remove all trade history from the database.
             _context.CurrencyExchangeTrades.RemoveRange(trades);
             await _context.SaveChangesAsync();
 
