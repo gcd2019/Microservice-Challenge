@@ -1,6 +1,7 @@
 # Microservice-Challenge
 
 # General Information
+- Currency Exchange API
 - IDE Used: Visual Studio 2022
 - Framework: .Net 7.0
 - Rate Provider used: Fixer.IO
